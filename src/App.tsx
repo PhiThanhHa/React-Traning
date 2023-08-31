@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./App.css";
 
@@ -10,21 +10,26 @@ function App() {
 
   const [addInputItem, setAddInputItem] = useState("");
 
-  document.addEventListener(function (event) {
-    if (event.keyCode === 13) {
-      console.log("hi ha document");
-      console.log(event);
-    }
-  });
+  // useEffect(() => {
+  //   document.addEventListener("keypress", function (event) {
+  //     if (event.keyCode === 13) {
+  //       console.log("hi ha document");
+  //       // console.log(event);
+  //       // addDatasItem()
+  //     }
+  //   });
+  // }, []);
 
-  window.addEventListener("DOMContentLoaded", (event) => {
-    // =.addEventListener("keydown", function (event) {
-    //   if (event.keyCode === 13) {
-    //     console.log("hi ha");
-    //     console.log(event);
-    //   }
-    // });
-  });
+  //   useEffect(() => {
+  //     const timerInput = setTimeout(() => {
+  //       console.log("sdfasdfsd");
+  //       addDatasItem();
+  //       setAddInputItem("");
+  //     }, 3000);
+  //     return () => {
+  //       clearTimeout(timerInput);
+  //     };
+  //   }, [addInputItem]);
 
   const addDatasItem = () => {
     if (addInputItem) {
@@ -35,13 +40,13 @@ function App() {
     }
   };
 
-  const deleteItem = (id) => {
+  const deleteItem = (id: number) => {
     let deletedItem = todoList.filter((item) => item.id !== id);
     setTodoList(deletedItem);
     console.log("deletedItem", deletedItem);
   };
 
-  const completed = (id) => {
+  const completed = (id: number) => {
     const completedItem = todoList.map((item) => {
       if (item.id === id) {
         return { ...item, status: !item.status };
@@ -60,6 +65,12 @@ function App() {
             <input
               value={addInputItem}
               onChange={(e) => setAddInputItem(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  addDatasItem();
+                  console.log("toi la ha");
+                }
+              }}
               className="input-add"
               placeholder="Add something to do..."
               id="input-add-id"
