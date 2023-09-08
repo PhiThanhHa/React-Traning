@@ -12,6 +12,8 @@ function App() {
 
   const tai = "test rebase";
 
+  const tai2 = "test rebase2";
+
   // useEffect(() => {
   //   document.addEventListener("keypress", function (event) {
   //     if (event.keyCode === 13) {
