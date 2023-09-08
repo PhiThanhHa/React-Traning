@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 
 import "./App.css";
 
@@ -9,6 +9,8 @@ function App() {
   ]);
 
   const [addInputItem, setAddInputItem] = useState("");
+
+  const tai = "test rebase";
 
   // useEffect(() => {
   //   document.addEventListener("keypress", function (event) {
