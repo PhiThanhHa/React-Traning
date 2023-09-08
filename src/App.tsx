@@ -9,6 +9,7 @@ function App() {
   ]);
 
   const [addInputItem, setAddInputItem] = useState("");
+  const [test, setTest] = useState("");
 
   const tai = "test rebase";
 
