@@ -1,0 +1,11 @@
+.style__Link {
+  background-color: brown;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.style__button {
+  /* background-color: aqua; */
+  /* padding: 10px 0; */
+  border: none;
+}

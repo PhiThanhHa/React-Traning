@@ -1,0 +1,23 @@
+.search__input {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.search__input--item {
+    border-radius: 10px;
+    height: 24px;
+    border: 1px solid #333;
+    font-size: 14px;
+    padding: 0 10px;
+    /* outline: none; */
+}
+
+.margin--bottom {
+    margin-bottom: 10px;
+}
+
+.style-todo {
+    /* background-color: volcano; */
+    color: green;
+}
