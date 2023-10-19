@@ -1,116 +1,96 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Col, Modal, Row } from "antd";
+
+// import { Space, Table, Tag } from "antd";
+// import type { ColumnsType } from "antd/es/table";
+// import React, { useEffect, useState } from "react";
 
 import "./App.css";
 
+import HomePageTodoList from "./container/HomePageTodoList";
+import SearchTodo from "./container/SearchTodo";
+import CreateEditTodo from "./container/CreateEditTodo";
+
 function App() {
-  const [todoList, setTodoList] = useState([
-    { id: 1, title: "hello", status: false },
-    { id: 2, title: "hi", status: false },
-  ]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [addInputItem, setAddInputItem] = useState("");
-  const [test, setTest] = useState("");
-
-  const tai = "test rebase";
-
-  const tai2 = "test rebase2";
-
-  // useEffect(() => {
-  //   document.addEventListener("keypress", function (event) {
-  //     if (event.keyCode === 13) {
-  //       console.log("hi ha document");
-  //       // console.log(event);
-  //       // addDatasItem()
-  //     }
-  //   });
-  // }, []);
-
-  //   useEffect(() => {
-  //     const timerInput = setTimeout(() => {
-  //       console.log("sdfasdfsd");
-  //       addDatasItem();
-  //       setAddInputItem("");
-  //     }, 3000);
-  //     return () => {
-  //       clearTimeout(timerInput);
-  //     };
-  //   }, [addInputItem]);
-
-  const addDatasItem = () => {
-    if (addInputItem) {
-      let index = todoList.length + 1;
-      let newItem = { id: index, title: addInputItem, status: false };
-      setTodoList([...todoList, newItem]);
-      setAddInputItem("");
-    }
+  const showModal = () => {
+    setIsModalOpen(true);
   };
 
-  const deleteItem = (id: number) => {
-    let deletedItem = todoList.filter((item) => item.id !== id);
-    setTodoList(deletedItem);
-    console.log("deletedItem", deletedItem);
+  const handleOk = () => {
+    setIsModalOpen(false);
   };
 
-  const completed = (id: number) => {
-    const completedItem = todoList.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: !item.status };
-      }
-      return item;
-    });
-    setTodoList(completedItem);
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
-
   return (
-    <div className="App">
-      <div className="grid style-radius ">
-        <div className="container ">
-          <h1 className="heading">My Todos</h1>
-          <div className="box-add">
-            <input
-              value={addInputItem}
-              onChange={(e) => setAddInputItem(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  addDatasItem();
-                  console.log("toi la ha");
-                }
-              }}
-              className="input-add"
-              placeholder="Add something to do..."
-              id="input-add-id"
-            />
-            <button className="btn-add" onClick={addDatasItem}>
-              Save
-            </button>
-          </div>
-
-          {todoList && todoList.length ? "" : "No tasks..."}
-
-          {todoList.map((items) => {
-            return (
-              <div key={items.id}>
-                <div className="list-item">
-                  <input
-                    type="checkbox"
-                    onClick={() => completed(items.id)}
-                  ></input>
-                  <p className={items.status ? "confirm" : "noconfirm"}>
-                    <span className="item-content">{items.title}</span>
-                  </p>
-                  <button
-                    className="btn-deleted"
-                    onClick={() => deleteItem(items.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+    <>
+      <div className="container">
+        <div className="header">
+          <Row>
+            <Col span={24}>
+              <h1 className="heading">My Todos</h1>
+            </Col>
+          </Row>
         </div>
+        {/* <Row>
+        <Col span={12}>col-12</Col>
+        <Col span={12}>col-12</Col>
+      </Row> */}
+        <Row>
+          {/* <Col span={8}>col-8</Col> */}
+          <Col span={20}>
+            {/* <Row>
+            <Col span={20}>
+              <h2 className="heading color1">hi</h2>
+            </Col>
+            <Col span={4}>
+              <h2 className="heading color4">hiiii</h2>
+            </Col> 
+          </Row>*/}
+            <SearchTodo />
+          </Col>
+          <Col span={4}>
+            <button
+              type="button"
+              onClick={showModal}
+            >
+              Create
+            </button>
+          </Col>
+        </Row>
+        {/* <Row>
+        <Col span={6}>col-6</Col>
+        <Col span={6}>col-6</Col>
+        <Col span={6}>col-6</Col>
+        <Col span={6}>col-6</Col>
+      </Row> */}
+
+        <Row>
+          <Col span={24}>
+            <HomePageTodoList />
+          </Col>
+        </Row>
+
+        {/* <Row>
+          <Col span={24}>
+            <CreateEditTodo />
+          </Col>
+        </Row> */}
       </div>
-    </div>
+
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        okText={"Save"}
+      >
+        <CreateEditTodo />
+      </Modal>
+    </>
   );
 }
 
