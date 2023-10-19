@@ -5,9 +5,11 @@ import "./App.css";
 
 function App() {
   const [todo, setTodo] = useState([
-    { id: 1, title: "hello", status: false },
-    { id: 2, title: "hi", status: false },
+    // { id: 1, title: "hello", status: false },
+    // { id: 2, title: "hi", status: false },
   ]);
+
+  
 
   const [addInputItem, setAddInputItem] = useState("");
 
@@ -16,7 +18,7 @@ function App() {
       let index = todo.length + 1;
       let newInputItem = { id: index, title: addInputItem, status: false };
       setTodo([...todo, newInputItem]);
-      setAddItem("");
+      setAddInputItem("");
     }
   };
 
@@ -43,8 +45,8 @@ function App() {
           <h1 className="heading">My Todos</h1>
           <div className="box-add">
             <input
-              value={addItem}
-              onChange={(e) => setAddItem(e.target.value)}
+              value={addInputItem}
+              onChange={(e) => setAddInputItem(e.target.value)}
               className="input-add"
               placeholder="Add something to do..."
             />

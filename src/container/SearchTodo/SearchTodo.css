@@ -1,7 +1,7 @@
 .search__input {
     display: flex;
     flex-direction: column;
-
+    margin-right: 20px;
 }
 
 .search__input--item {
@@ -15,4 +15,9 @@
 
 .margin--bottom {
     margin-bottom: 10px;
+}
+
+.style-todo {
+    /* background-color: volcano; */
+    color: green;
 }
