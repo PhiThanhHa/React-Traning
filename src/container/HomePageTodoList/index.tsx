@@ -10,13 +10,13 @@ export interface DataType {
   date?: string;
   status?: string;
 }
-
 interface IPropsHomePageTodoList {
   onShowModal?: () => void;
   data: DataType[];
+  handleDelete?: () => void;
 }
 
-function HomePageTodoList({ onShowModal, data }: IPropsHomePageTodoList) {
+function HomePageTodoList(props: any) {
   const columns: ColumnsType<DataType> = [
     // {
     //   title: "Serial",
@@ -50,10 +50,10 @@ function HomePageTodoList({ onShowModal, data }: IPropsHomePageTodoList) {
         <Space size="middle">
           {/* <a>Invite {record.content}</a> */}
           {/* <Button type="primary" danger > */}
-          <Button type="primary" danger onClick={onShowModal}>
+          <Button type="primary" danger onClick={props.onShowModal}>
             Edit
           </Button>
-          <Button type="primary" danger>
+          <Button type="primary" danger onClick={props.handleDelete}>
             Delete
           </Button>
         </Space>
@@ -61,7 +61,7 @@ function HomePageTodoList({ onShowModal, data }: IPropsHomePageTodoList) {
     },
   ];
 
-  return <Table columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={props.data} />;
 }
 
 export default HomePageTodoList;

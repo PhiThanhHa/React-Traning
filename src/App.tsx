@@ -9,14 +9,16 @@ import CreateEditTodo from "./container/CreateEditTodo";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataChange, setDataChange] = useState([]);
+
+  const exportData = (data: any) => {
+    setDataChange(data);
+  };
+
+  console.log("datachange", dataChange);
 
   const showModal = () => {
     setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
   };
 
   const handleCancel = () => {
@@ -45,7 +47,11 @@ function App() {
         </Row>
         <Row>
           <Col span={24}>
-            <HomePageTodoList data={[]} />
+            <HomePageTodoList
+              data={dataChange}
+              onShowModal={showModal}
+              // handleDelete={() => deleteItem(items.id)}
+            />
           </Col>
         </Row>
       </div>
@@ -58,7 +64,10 @@ function App() {
         // okText={"Save"}
         footer={null}
       >
-        <CreateEditTodo onHandleCancel={handleCancel} />
+        <CreateEditTodo
+          onHandleCancel={handleCancel}
+          onCallbackGetData={exportData}
+        />
       </Modal>
     </>
   );

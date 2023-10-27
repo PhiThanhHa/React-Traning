@@ -18,28 +18,31 @@ const tailLayout = {
 interface IPropsHandelCancel {
   onHandleCancel: () => void;
   // hàm thực thi , không trả về giá trị
-  // exportData: any;
+  onCallbackGetData: (data: any) => void;
 }
 
-function CreateEditTodo({ onHandleCancel }: IPropsHandelCancel) {
+function CreateEditTodo(props: any) {
   const formRef = React.useRef<FormInstance>(null);
 
   const [todoList, setTodoList] = useState<any>([]);
 
-  // exportData = todoList;
-  // console.log("exportData", exportData);
-
   const onFinish = (values: {}) => {
     console.log("onFinishValue", values);
-    let pushDataInTodoList = setTodoList([...todoList, values]);
-    // console.log("pushDataInTodoList", pushDataInTodoList);
+    setTodoList([...todoList, values]);
     onReset();
   };
 
+  props.onCallbackGetData(todoList);
+
   const onReset = () => {
     formRef.current?.resetFields();
-    onHandleCancel();
+    props.onHandleCancel();
   };
+
+  useEffect(() => {
+    localStorage.setItem("SaveItemInLocalstorage", JSON.stringify(todoList));
+    console.log("SaveItemInLocalstorage");
+  }, [todoList]);
 
   useEffect(() => {
     const dataTodoList = localStorage.getItem("SaveItemInLocalstorage");
@@ -48,10 +51,11 @@ function CreateEditTodo({ onHandleCancel }: IPropsHandelCancel) {
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("SaveItemInLocalstorage", JSON.stringify(todoList));
-    console.log("SaveItemInLocalstorage");
-  }, [todoList]);
+  const deleteItem = (id: number) => {
+    let deletedItem = todoList.filter((item: any) => item.id !== id);
+    setTodoList(deletedItem);
+    console.log("deletedItem", deletedItem);
+  };
 
   return (
     <Form
@@ -85,22 +89,14 @@ function CreateEditTodo({ onHandleCancel }: IPropsHandelCancel) {
         </Select>
       </Form.Item>
       {/* gọi hàm onSubmit sau khi lưu thành công thì gọi hàm onReset để xóa dữ liệu bên trong ô input */}
-      {/* gọi hàm onCancle sau khi lưu thành công thì gọi hàm onReset để xóa dữ liệu  bên trong ô input*/}
       <Form.Item {...tailLayout}>
-        <Button
-          type="primary"
-          htmlType="submit"
-          style={{ marginRight: 20 }}
-          // onClick={addDatasItem}
-        >
-          {/* <Button type="primary" htmlType="submit" onAddItem={onFinish}> */}
+        <Button type="primary" htmlType="submit" style={{ marginRight: 20 }}>
           Submit
         </Button>
         <Button htmlType="button" onClick={onReset}>
           Cancle
         </Button>
       </Form.Item>
-      <HomePageTodoList data={todoList} />
     </Form>
   );
 }
@@ -127,13 +123,4 @@ export default CreateEditTodo;
 //     return item;
 //   });
 //   setTodoList(completedItem);
-// };
-
-// const addDatasItem = () => {
-//   if (addInputItem) {
-//     let index = todoList.length + 1;
-//     let newItem = { id: index };
-//     setTodoList([...todoList, newItem]);
-//     setAddInputItem("");
-//   }
 // };
