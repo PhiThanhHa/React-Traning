@@ -1,92 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-import { Space, Table, Tag } from "antd";
-import type { ColumnsType } from "antd/es/table";
-
-interface DataType {
-  key: string;
-  date: string;
-  content: string;
-  status: string[];
-}
-
-const columns: ColumnsType<DataType> = [
-  {
-    title: "Serial",
-    dataIndex: "key",
-    key: "serial",
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-  },
-  {
-    title: "Content",
-    dataIndex: "content",
-    key: "content",
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "Status",
-    key: "status",
-    dataIndex: "status",
-    render: (_, { status }) => (
-      <>
-        {status.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Space size="middle">
-        {/* <a>Invite {record.content}</a> */}
-        <a>Edit</a>
-        <a>Delete</a>
-      </Space>
-    ),
-  },
-];
-
-const data: DataType[] = [
-  {
-    key: "1",
-    date: "16/09/2023",
-    content: "I'm Ha",
-    status: ["done"],
-  },
-  {
-    key: "2",
-    date: "17/09/2023",
-    content: "I'm Tien",
-    status: ["done"],
-  },
-  {
-    key: "3",
-    date: "18/09/2023",
-    content: "I'm Tam",
-    status: ["done"],
-  },
-];
-
-const HomePageTodoList: React.FC = () => (
-  <Table columns={columns} dataSource={data} />
-);
-
-export default HomePageTodoList;
-=======
 import React, { useEffect, useState } from "react";
 import { Button, Select, Space, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -94,71 +5,43 @@ import type { ColumnsType } from "antd/es/table";
 import "./HomePageTodoList.css";
 
 export interface DataType {
-  // key: string;
-  date: string;
-  content: string;
-  status: string;
+  // key?: string;
+  content?: string;
+  date?: string;
+  status?: string;
 }
 
 interface IPropsHomePageTodoList {
-  onShowModal: () => void;
-  data: DataType[]
+  onShowModal?: () => void;
+  data: DataType[];
 }
 
-
-function HomePageTodoList({ onShowModal, data }: IPropsHomePageTodoList ) {
-
+function HomePageTodoList({ onShowModal, data }: IPropsHomePageTodoList) {
   const columns: ColumnsType<DataType> = [
-    {
-      title: "Serial",
-      dataIndex: "key",
-      key: "serial",
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-    },
+    // {
+    //   title: "Serial",
+    //   dataIndex: "key",
+    //   key: "serial",
+    // },
     {
       title: "Content",
       dataIndex: "content",
       key: "content",
       render: (Content) => <a>{Content}</a>,
     },
+
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+    },
+
     {
       title: "Status",
       key: "status",
       dataIndex: "status",
 
       render: (status) => <a>{status}</a>,
-
-      // render: (_, { status }) => (
-      //   <>
-      //     {status.map((tag) => {
-      //       let color = tag.length > 5 ? "geekblue" : "green";
-      //       if (tag === "loser") {
-      //         color = "volcano";
-      //       }
-      //       return (
-      //         <Tag color={color} key={tag}>
-      //           {tag.toUpperCase()}
-      //         </Tag>
-      //       );
-      //     })}
-      //   </>
-      // ),
-
-      // <Select
-      //     placeholder="Select a option and change input text above"
-      //     onChange={(value, option) => {
-      //       console.log(value)
-      //     }}
-      //     defaultValue={"todo"}
-      //   >
-      //     <Option value="todo">todo</Option>
-      //     <Option value="doing">doing</Option>
-      //     <Option value="done">done</Option>
-      //   </Select>
     },
     {
       title: "Action",
@@ -178,21 +61,8 @@ function HomePageTodoList({ onShowModal, data }: IPropsHomePageTodoList ) {
     },
   ];
 
- 
-//   const addDatasItem = () => {
-//     if (addInputItem) {
-//       let index = todoList.length + 1;
-//       let newItem = { id: index, title: addInputItem, status: false };
-//       setTodoList([...todoList, newItem]);
-//       setAddInputItem("");
-//     }
-
   return <Table columns={columns} dataSource={data} />;
 }
-
-// const HomePageTodoList: React.FC = () => (
-//   <Table columns={columns} dataSource={data} />
-// );
 
 export default HomePageTodoList;
 
@@ -312,4 +182,32 @@ export default HomePageTodoList;
 
 // return (<HomePageTodoList/>)
 // }
->>>>>>> 6fea94df606958f1c4ddb283d7b96dd944fd1d74
+
+///////
+// render: (_, { status }) => (
+//   <>
+//     {status.map((tag) => {
+//       let color = tag.length > 5 ? "geekblue" : "green";
+//       if (tag === "loser") {
+//         color = "volcano";
+//       }
+//       return (
+//         <Tag color={color} key={tag}>
+//           {tag.toUpperCase()}
+//         </Tag>
+//       );
+//     })}
+//   </>
+// ),
+
+// <Select
+//     placeholder="Select a option and change input text above"
+//     onChange={(value, option) => {
+//       console.log(value)
+//     }}
+//     defaultValue={"todo"}
+//   >
+//     <Option value="todo">todo</Option>
+//     <Option value="doing">doing</Option>
+//     <Option value="done">done</Option>
+//   </Select>

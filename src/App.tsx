@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { Col, Modal, Row } from "antd";
 
-// import { Space, Table, Tag } from "antd";
-// import type { ColumnsType } from "antd/es/table";
-// import React, { useEffect, useState } from "react";
-
 import "./App.css";
 
 import HomePageTodoList from "./container/HomePageTodoList";
@@ -13,6 +9,7 @@ import CreateEditTodo from "./container/CreateEditTodo";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -25,6 +22,7 @@ function App() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   return (
     <>
       <div className="container">
@@ -35,60 +33,32 @@ function App() {
             </Col>
           </Row>
         </div>
-        {/* <Row>
-        <Col span={12}>col-12</Col>
-        <Col span={12}>col-12</Col>
-      </Row> */}
         <Row>
-          {/* <Col span={8}>col-8</Col> */}
           <Col span={20}>
-            {/* <Row>
-            <Col span={20}>
-              <h2 className="heading color1">hi</h2>
-            </Col>
-            <Col span={4}>
-              <h2 className="heading color4">hiiii</h2>
-            </Col> 
-          </Row>*/}
             <SearchTodo />
           </Col>
           <Col span={4}>
-            <button
-              type="button"
-              onClick={showModal}
-            >
+            <button type="button" onClick={showModal}>
               Create
             </button>
           </Col>
         </Row>
-        {/* <Row>
-        <Col span={6}>col-6</Col>
-        <Col span={6}>col-6</Col>
-        <Col span={6}>col-6</Col>
-        <Col span={6}>col-6</Col>
-      </Row> */}
-
         <Row>
           <Col span={24}>
-            <HomePageTodoList />
+            <HomePageTodoList data={[]} />
           </Col>
         </Row>
-
-        {/* <Row>
-          <Col span={24}>
-            <CreateEditTodo />
-          </Col>
-        </Row> */}
       </div>
 
       <Modal
         title="Basic Modal"
         open={isModalOpen}
-        onOk={handleOk}
+        // onOk={handleOk}
         onCancel={handleCancel}
-        okText={"Save"}
+        // okText={"Save"}
+        footer={null}
       >
-        <CreateEditTodo />
+        <CreateEditTodo onHandleCancel={handleCancel} />
       </Modal>
     </>
   );

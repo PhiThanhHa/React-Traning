@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Select } from "antd";
 import type { FormInstance } from "antd/es/form";
 import App from "../../App";
-
-console.log("CreateEditTodo2");
+import HomePageTodoList from "../HomePageTodoList";
 
 const { Option } = Select;
 
@@ -19,13 +18,22 @@ const tailLayout = {
 interface IPropsHandelCancel {
   onHandleCancel: () => void;
   // hàm thực thi , không trả về giá trị
+  // exportData: any;
 }
 
 function CreateEditTodo({ onHandleCancel }: IPropsHandelCancel) {
   const formRef = React.useRef<FormInstance>(null);
 
+  const [todoList, setTodoList] = useState<any>([]);
+
+  // exportData = todoList;
+  // console.log("exportData", exportData);
+
   const onFinish = (values: {}) => {
     console.log("onFinishValue", values);
+    let pushDataInTodoList = setTodoList([...todoList, values]);
+    // console.log("pushDataInTodoList", pushDataInTodoList);
+    onReset();
   };
 
   const onReset = () => {
@@ -33,27 +41,17 @@ function CreateEditTodo({ onHandleCancel }: IPropsHandelCancel) {
     onHandleCancel();
   };
 
-  // useEffect(() => {
-  //   const timerInput = setTimeout(() => {
-  //     console.log("sdfasdfsd");
-  //     addDatasItem();
-  //     setAddInputItem("");
-  //   }, 3000);
-  //   return () => {
-  //     clearTimeout(timerInput);
-  //   };
-  // }, [addInputItem]);
-  // };
+  useEffect(() => {
+    const dataTodoList = localStorage.getItem("SaveItemInLocalstorage");
+    if (dataTodoList) {
+      setTodoList(JSON.parse(dataTodoList));
+    }
+  }, []);
 
-  // const completed = (id: number) => {
-  //   const completedItem = todoList.map((item: any) => {
-  //     if (item.id === id) {
-  //       return { ...item, status: !item.status };
-  //     }
-  //     return item;
-  //   });
-  //   setTodoList(completedItem);
-  // };
+  useEffect(() => {
+    localStorage.setItem("SaveItemInLocalstorage", JSON.stringify(todoList));
+    console.log("SaveItemInLocalstorage");
+  }, [todoList]);
 
   return (
     <Form
@@ -73,7 +71,7 @@ function CreateEditTodo({ onHandleCancel }: IPropsHandelCancel) {
         <Select
           placeholder="Select a option and change input text above"
           onChange={(value, option) => {
-            console.log(value);
+            console.log("value", value);
           }}
           // defaultValue={"todo"}
           // allowClear'
@@ -89,16 +87,53 @@ function CreateEditTodo({ onHandleCancel }: IPropsHandelCancel) {
       {/* gọi hàm onSubmit sau khi lưu thành công thì gọi hàm onReset để xóa dữ liệu bên trong ô input */}
       {/* gọi hàm onCancle sau khi lưu thành công thì gọi hàm onReset để xóa dữ liệu  bên trong ô input*/}
       <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit" >
-        {/* <Button type="primary" htmlType="submit" onAddItem={onFinish}> */}
+        <Button
+          type="primary"
+          htmlType="submit"
+          style={{ marginRight: 20 }}
+          // onClick={addDatasItem}
+        >
+          {/* <Button type="primary" htmlType="submit" onAddItem={onFinish}> */}
           Submit
         </Button>
         <Button htmlType="button" onClick={onReset}>
           Cancle
         </Button>
       </Form.Item>
+      <HomePageTodoList data={todoList} />
     </Form>
   );
 }
 
 export default CreateEditTodo;
+
+// useEffect(() => {
+//   const timerInput = setTimeout(() => {
+//     console.log("sdfasdfsd");
+//     addDatasItem();
+//     setAddInputItem("");
+//   }, 3000);
+//   return () => {
+//     clearTimeout(timerInput);
+//   };
+// }, [addInputItem]);
+// };
+
+// const completed = (id: number) => {
+//   const completedItem = todoList.map((item: any) => {
+//     if (item.id === id) {
+//       return { ...item, status: !item.status };
+//     }
+//     return item;
+//   });
+//   setTodoList(completedItem);
+// };
+
+// const addDatasItem = () => {
+//   if (addInputItem) {
+//     let index = todoList.length + 1;
+//     let newItem = { id: index };
+//     setTodoList([...todoList, newItem]);
+//     setAddInputItem("");
+//   }
+// };

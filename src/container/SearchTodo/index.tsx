@@ -3,8 +3,6 @@ import { Col, Row } from "antd";
 import { Form, Input, Select } from "antd";
 // import type { FormInstance } from 'antd/es/form';
 
-import "./SearchTodo.css";
-
 const { Option } = Select;
 
 const layout = {
@@ -12,31 +10,19 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
-// const tailLayout = {
-//   wrapperCol: { offset: 8, span: 16 },
-// };
-
 function SearchTodo() {
   return (
     <>
       <Row>
-        <Col span={18}>
-          {/* <div className="search__input">
-          <input type="text" placeholder="Search by content" className="search__input--item margin--bottom"/>
-          <input type="date" className="search__input--item"/>
-        </div> */}
+        <Col span={18} style={{ backgroundColor: "", left: 0 }}>
           <Form
             {...layout}
             // ref={formRef}
             name="control-ref"
             // onFinish={onFinish}
-            style={{ maxWidth: 800 }}
+            style={{ maxWidth: 1000 }}
           >
-            <Form.Item
-              name="Search by content"
-              label="Search by content"
-              // rules={[{ required: true }]}
-            >
+            <Form.Item name="Search by content" label="Search by content">
               <Input />
             </Form.Item>
             <Form.Item name="Search by date" label="Search by date">
@@ -44,9 +30,7 @@ function SearchTodo() {
             </Form.Item>
           </Form>
         </Col>
-        <Col span={6}>
-          {/* <h2 className="heading color1">chào</h2> */}
-
+        <Col span={6} style={{ backgroundColor: "", float: "left" }}>
           <Select
             placeholder="Select a option and change input text above"
             onChange={(value, option) => {
@@ -54,7 +38,10 @@ function SearchTodo() {
             }}
             defaultValue={"todo"}
             // allowClear'
-            style={{ left: "50%", transform: " translate(-50%, 0)" }}
+            style={{
+              left: "50%",
+              transform: " translate(-50%, 0)",
+            }}
           >
             <Option
               value="todo"
