@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Modal, Row } from "antd";
+import { v4 as uuidv4 } from "uuid";
 
 import "./App.css";
 
@@ -9,16 +10,53 @@ import CreateEditTodo from "./container/CreateEditTodo";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [dataChange, setDataChange] = useState([]);
+  const [todoList, setTodoList] = useState<any>([]);
+  // const [editDataItem, setEditDataItem] = useState<any>([]);
 
-  const exportData = (data: any) => {
-    setDataChange(data);
+  useEffect(() => {
+    const dataTodoList = localStorage.getItem("SaveItemInLocalstorage");
+    if (dataTodoList) {
+      setTodoList(JSON.parse(dataTodoList));
+    }
+  }, []);
+
+  const deleteItem = (id: any) => {
+    let deletedItem = todoList.filter((item: any) => item.id !== id);
+    setTodoList(deletedItem);
+    console.log("deletedItem", deletedItem);
+    saveLocalStorage(deletedItem);
   };
 
-  console.log("datachange", dataChange);
+  const editItem = (id: any) => {
+    let deletedItem = todoList.filter((item: any) => item.id !== id);
+    setTodoList(deletedItem);
+    console.log("deletedItem", deletedItem);
+    saveLocalStorage(deletedItem);
+  };
 
-  const showModal = () => {
+  const saveLocalStorage = (values: any) => {
+    localStorage.setItem("SaveItemInLocalstorage", JSON.stringify(values));
+  };
+
+  const addData = (data: any) => {
+    const saveData = [...todoList, { ...data, id: uuidv4() }];
+    setTodoList(saveData);
+    saveLocalStorage(saveData);
+  };
+
+  console.log("todoList", todoList);
+
+  const showModal = (record: any) => {
     setIsModalOpen(true);
+    console.log("record", record);
+    const keOfRecord = record.id
+    console.log("key of record ", keOfRecord);
+    
+    //kiem tra la edit hay create
+    if (record) {
+      //hien thi data ra giao dien
+      //goi ham edit
+    }
   };
 
   const handleCancel = () => {
@@ -48,9 +86,11 @@ function App() {
         <Row>
           <Col span={24}>
             <HomePageTodoList
-              data={dataChange}
-              onShowModal={showModal}
-              // handleDelete={() => deleteItem(items.id)}
+              data={todoList}
+              // onShowModal={showModal}
+              // onShowModal={() => showModal()}
+              onShowModal={(record: any) => showModal(record)}
+              handleDelete={(id: string) => deleteItem(id)}
             />
           </Col>
         </Row>
@@ -64,10 +104,7 @@ function App() {
         // okText={"Save"}
         footer={null}
       >
-        <CreateEditTodo
-          onHandleCancel={handleCancel}
-          onCallbackGetData={exportData}
-        />
+        <CreateEditTodo onHandleCancel={handleCancel} onAddTodo={addData} getEditTodo={showModal} />
       </Modal>
     </>
   );

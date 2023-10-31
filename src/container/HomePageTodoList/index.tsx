@@ -5,18 +5,19 @@ import type { ColumnsType } from "antd/es/table";
 import "./HomePageTodoList.css";
 
 export interface DataType {
-  // key?: string;
+  id?: string;
   content?: string;
   date?: string;
   status?: string;
 }
 interface IPropsHomePageTodoList {
-  onShowModal?: () => void;
+  onShowModal?: (record:DataType) => void;
   data: DataType[];
-  handleDelete?: () => void;
+  handleDelete?: (id:string) => void;
 }
 
-function HomePageTodoList(props: any) {
+function HomePageTodoList(props: any) { 
+  const{onShowModal, handleDelete, data} = props
   const columns: ColumnsType<DataType> = [
     // {
     //   title: "Serial",
@@ -50,10 +51,10 @@ function HomePageTodoList(props: any) {
         <Space size="middle">
           {/* <a>Invite {record.content}</a> */}
           {/* <Button type="primary" danger > */}
-          <Button type="primary" danger onClick={props.onShowModal}>
+          <Button type="primary" danger onClick={()=>onShowModal(record)}>
             Edit
           </Button>
-          <Button type="primary" danger onClick={props.handleDelete}>
+          <Button type="primary" danger onClick={()=>handleDelete(record.id)}>
             Delete
           </Button>
         </Space>
@@ -61,7 +62,7 @@ function HomePageTodoList(props: any) {
     },
   ];
 
-  return <Table columns={columns} dataSource={props.data} />;
+  return <Table columns={columns} dataSource={data} />;
 }
 
 export default HomePageTodoList;

@@ -18,44 +18,28 @@ const tailLayout = {
 interface IPropsHandelCancel {
   onHandleCancel: () => void;
   // hàm thực thi , không trả về giá trị
-  onCallbackGetData: (data: any) => void;
+  onAddTodo: (data: any) => void;
+  getEditTodo: (editData: any) => void;
 }
 
 function CreateEditTodo(props: any) {
+  const { onHandleCancel, onAddTodo, getEditTodo} = props
   const formRef = React.useRef<FormInstance>(null);
 
-  const [todoList, setTodoList] = useState<any>([]);
+  // loi khi reload page gans lai la mang rong nhung ta can khi reload page thi lay du lieu trong localstorage
 
   const onFinish = (values: {}) => {
     console.log("onFinishValue", values);
-    setTodoList([...todoList, values]);
+    onAddTodo(values);
     onReset();
   };
 
-  props.onCallbackGetData(todoList);
-
   const onReset = () => {
     formRef.current?.resetFields();
-    props.onHandleCancel();
+    onHandleCancel();
   };
 
-  useEffect(() => {
-    localStorage.setItem("SaveItemInLocalstorage", JSON.stringify(todoList));
-    console.log("SaveItemInLocalstorage");
-  }, [todoList]);
-
-  useEffect(() => {
-    const dataTodoList = localStorage.getItem("SaveItemInLocalstorage");
-    if (dataTodoList) {
-      setTodoList(JSON.parse(dataTodoList));
-    }
-  }, []);
-
-  const deleteItem = (id: number) => {
-    let deletedItem = todoList.filter((item: any) => item.id !== id);
-    setTodoList(deletedItem);
-    console.log("deletedItem", deletedItem);
-  };
+  getEditTodo(edi)
 
   return (
     <Form
