@@ -11,13 +11,14 @@ export interface DataType {
   status?: string;
 }
 interface IPropsHomePageTodoList {
-  onShowModal?: (record:DataType) => void;
+  onShowModal?: () => void;
   data: DataType[];
-  handleDelete?: (id:string) => void;
+  handleDelete?: (id: string) => void;
+  handleEditData?: (record: DataType) => void;
 }
 
-function HomePageTodoList(props: any) { 
-  const{onShowModal, handleDelete, data} = props
+function HomePageTodoList(props: any) {
+  const { onShowModal, handleDelete, data, handleEditData } = props;
   const columns: ColumnsType<DataType> = [
     // {
     //   title: "Serial",
@@ -51,10 +52,17 @@ function HomePageTodoList(props: any) {
         <Space size="middle">
           {/* <a>Invite {record.content}</a> */}
           {/* <Button type="primary" danger > */}
-          <Button type="primary" danger onClick={()=>onShowModal(record)}>
+          <Button
+            type="primary"
+            danger
+            onClick={() => {
+              onShowModal();
+              handleEditData(record);
+            }}
+          >
             Edit
           </Button>
-          <Button type="primary" danger onClick={()=>handleDelete(record.id)}>
+          <Button type="primary" danger onClick={() => handleDelete(record.id)}>
             Delete
           </Button>
         </Space>

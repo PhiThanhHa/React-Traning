@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Select } from "antd";
 import type { FormInstance } from "antd/es/form";
 import App from "../../App";
-import HomePageTodoList from "../HomePageTodoList";
+import HomePageTodoList, { DataType } from "../HomePageTodoList";
 
 const { Option } = Select;
 
@@ -19,32 +19,47 @@ interface IPropsHandelCancel {
   onHandleCancel: () => void;
   // hàm thực thi , không trả về giá trị
   onAddTodo: (data: any) => void;
-  getEditTodo: (editData: any) => void;
+  editData: DataType;
+  handleUpdate: (editData: DataType) => void;
 }
 
-function CreateEditTodo(props: any) {
-  const { onHandleCancel, onAddTodo, getEditTodo} = props
-  const formRef = React.useRef<FormInstance>(null);
+function CreateEditTodo(props: IPropsHandelCancel) {
+  const { onHandleCancel, onAddTodo, editData, handleUpdate } = props;
+  const [form] = Form.useForm();
 
   // loi khi reload page gans lai la mang rong nhung ta can khi reload page thi lay du lieu trong localstorage
 
   const onFinish = (values: {}) => {
-    console.log("onFinishValue", values);
-    onAddTodo(values);
+    if (editData) {
+      handleUpdate({ ...values, id: editData.id });
+    } else {
+      onAddTodo(values);
+    }
     onReset();
   };
 
   const onReset = () => {
-    formRef.current?.resetFields();
+    form.resetFields();
     onHandleCancel();
   };
 
-  getEditTodo(edi)
+  useEffect(() => {
+    const onFill = () => {
+      form.setFieldsValue(editData);
+    };
+    if (editData) {
+      onFill();
+    } else {
+      form.setFieldsValue({ content: "", date: "", status: "" });
+      // form.setFieldsValue({ null });
+    }
+  }, [editData]);
 
   return (
     <Form
       {...layout}
-      ref={formRef}
+      form={form}
+      // inittialValues={editData}
       name="control-ref"
       onFinish={onFinish}
       style={{ maxWidth: 600 }}

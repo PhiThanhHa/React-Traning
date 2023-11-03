@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "myapp-15bfc"
-  }
+    "default": "myapp-15bfc",
+    "firebase deploy": "myapp-15bfc"
+  },
+  "targets": {},
+  "etags": {}
 }
