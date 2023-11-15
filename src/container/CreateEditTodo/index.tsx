@@ -15,7 +15,7 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-interface IPropsHandelCancel {
+interface IPropsCreateEditTodo {
   onHandleCancel: () => void;
   // hàm thực thi , không trả về giá trị
   onAddTodo: (data: any) => void;
@@ -23,15 +23,16 @@ interface IPropsHandelCancel {
   handleUpdate: (editData: DataType) => void;
 }
 
-function CreateEditTodo(props: IPropsHandelCancel) {
+function CreateEditTodo(props: IPropsCreateEditTodo) {
   const { onHandleCancel, onAddTodo, editData, handleUpdate } = props;
   const [form] = Form.useForm();
 
-  // loi khi reload page gans lai la mang rong nhung ta can khi reload page thi lay du lieu trong localstorage
-
   const onFinish = (values: {}) => {
     if (editData) {
-      handleUpdate({ ...values, id: editData.id });
+      handleUpdate({
+        ...values,
+        id: editData.id,
+      });
     } else {
       onAddTodo(values);
     }
@@ -59,7 +60,6 @@ function CreateEditTodo(props: IPropsHandelCancel) {
     <Form
       {...layout}
       form={form}
-      // inittialValues={editData}
       name="control-ref"
       onFinish={onFinish}
       style={{ maxWidth: 600 }}
@@ -73,9 +73,9 @@ function CreateEditTodo(props: IPropsHandelCancel) {
       <Form.Item name="status" label="Status" rules={[{ required: true }]}>
         <Select
           placeholder="Select a option and change input text above"
-          onChange={(value, option) => {
-            console.log("value", value);
-          }}
+          // onChange={(value, option) => {
+          //   console.log("value", value);
+          // }}
           // defaultValue={"todo"}
           // allowClear'
           style={{ left: "50%", transform: " translate(-50%, 0)" }}
@@ -101,25 +101,3 @@ function CreateEditTodo(props: IPropsHandelCancel) {
 }
 
 export default CreateEditTodo;
-
-// useEffect(() => {
-//   const timerInput = setTimeout(() => {
-//     console.log("sdfasdfsd");
-//     addDatasItem();
-//     setAddInputItem("");
-//   }, 3000);
-//   return () => {
-//     clearTimeout(timerInput);
-//   };
-// }, [addInputItem]);
-// };
-
-// const completed = (id: number) => {
-//   const completedItem = todoList.map((item: any) => {
-//     if (item.id === id) {
-//       return { ...item, status: !item.status };
-//     }
-//     return item;
-//   });
-//   setTodoList(completedItem);
-// };
