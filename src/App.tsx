@@ -16,75 +16,14 @@ function App() {
 
   const [filteredData, setFilteredData] = useState(todoList);
 
-  console.log("filteredData", filteredData);
-
-  // const searchItem = (searchData: any) => {
-  //   console.log("searchData", searchData.Searchbycontent);
-  //   // Lọc dữ liệu dựa trên giá trị tìm kiếm
-  //   {
-  //     if (searchData.Searchbycontent) {
-  //       const filtered = todoList.filter((item: any) =>
-  //         item.content.includes(searchData.Searchbycontent)
-  //       );
-  //       console.log("filtered", filtered);
-
-  //       setFilteredData(filtered);
-  //     }
-
-  //     if (searchData.Searchbydate) {
-  //       const filtered = todoList.filter(
-  //         (item: any) => item.date === searchData.Searchbydate
-  //       );
-  //       console.log("filtered", filtered);
-
-  //       setFilteredData(filtered);
-  //     } else {
-  //       const filtered = todoList.filter(
-  //         (item: any) =>
-  //           item.content.includes(searchData.Searchbycontent) &&
-  //           item.date === searchData.Searchbydate
-  //       );
-  //       console.log("filtered", filtered);
-
-  //       setFilteredData(filtered);
-  //     }
-  //   }
-  // };
-
-  // const searchItem = (searchData: any) => {
-  //   console.log("searchData", searchData.Searchbycontent);
-  //   // Lọc dữ liệu dựa trên giá trị tìm kiếm
-  //   const filtered = todoList.filter(
-  //     (item: any) =>
-  //       item.content.includes(searchData.Searchbycontent) &&
-  //       item.date === searchData.Searchbydate
-  //   );
-
-  //   console.log("filtered", filtered);
-
-  //   setFilteredData(filtered);
-  // };
-
-  // const handleSearch = (searchTerm: any, searchDate: any) => {
-  //   console.log("Searching for:", searchTerm);
-
-  //   const filtered = todoList.filter(
-  //     (item: any) =>
-  //       item.content.includes(searchTerm) && item.date === searchDate
-  //   );
-
-  //   console.log("filtered", filtered);
-  //   setFilteredData(filtered);
-  // };
-
-  const handleSearch = (searchTerm: any) => {
-    console.log("Searching for:", searchTerm);
-
-    const filtered = todoList.filter((item: any) =>
-      item.content.includes(searchTerm)
-    );
-
-    console.log("filtered", filtered);
+  const handleSearch = (searchTerm: any, searchDate: any) => {
+    const filtered = todoList.filter((item: any) => {
+      if (searchDate) {
+        return item.content.includes(searchTerm) && item.date === searchDate;
+      } else {
+        return item.content.includes(searchTerm);
+      }
+    });
     setFilteredData(filtered);
   };
 
@@ -149,10 +88,7 @@ function App() {
           </div>
           <Row>
             <Col span={20}>
-              <SearchTodo
-                onSearch={handleSearch}
-                // onSearch={(searchData: any) => searchItem(searchData)}
-              />
+              <SearchTodo onSearch={handleSearch} />
             </Col>
             <Col span={4}>
               <button type="button" onClick={showModal}>
@@ -179,9 +115,7 @@ function App() {
         <Modal
           title="Basic Modal"
           open={isModalOpen}
-          // onOk={handleOk}
           onCancel={handleCancel}
-          // okText={"Save"}
           footer={null}
         >
           <CreateEditTodo
@@ -232,9 +166,7 @@ function App() {
         <Modal
           title="Basic Modal"
           open={isModalOpen}
-          // onOk={handleOk}
           onCancel={handleCancel}
-          // okText={"Save"}
           footer={null}
         >
           <CreateEditTodo
