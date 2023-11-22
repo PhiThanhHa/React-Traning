@@ -10,7 +10,11 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 interface IPropsSearchTodo {
-  onSearch: (searchTernData: any, searchDataData: any) => void;
+  onSearch: (
+    searchTernData: string,
+    searchDateData: string,
+    searchStatus: string
+  ) => void;
 }
 
 function SearchTodo(props: IPropsSearchTodo) {
@@ -19,6 +23,8 @@ function SearchTodo(props: IPropsSearchTodo) {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [searchDate, setSearchDate] = useState("");
+  const [searchStatus, setSearchStatus] = useState("");
+  const [debouncedSearchTerm] = useDebounceSearch(searchTerm, 1000);
 
   const handleContentChange = (event: any) => {
     setSearchTerm(event.target.value);
@@ -27,14 +33,21 @@ function SearchTodo(props: IPropsSearchTodo) {
   const handleDateChange = (event: any) => {
     setSearchDate(event.target.value);
   };
-  useEffect(() => {
-    onSearch(searchTerm, searchDate);
-  }, [searchTerm, searchDate, onSearch]);
 
-  const [debouncedSearchTerm] = useDebounceSearch(
-    searchDate ? searchTerm && searchDate : searchTerm,
-    1000
-  );
+  // const handleDateChange = (event: any) => {
+  //   onSearch(debouncedSearchTerm, event.target.value, searchStatus);
+  // };
+
+  const onGenderChange = (value: any) => {
+    console.log("valueStatus", value);
+    setSearchStatus(value);
+  };
+
+  console.log("searchStatus", searchStatus);
+
+  useEffect(() => {
+    onSearch(debouncedSearchTerm, searchDate, searchStatus);
+  }, [debouncedSearchTerm, searchDate, searchStatus]);
 
   return (
     <>
@@ -55,31 +68,33 @@ function SearchTodo(props: IPropsSearchTodo) {
             </Form.Item>
           </Form>
         </Col>
-        {/* <Col span={6} style={{ backgroundColor: "", float: "left" }}>
-//           <Select
-//             placeholder="Select a option and change input text above"
-//             onChange={(value, option) => {
-//               console.log(value);
-//             }}
-//             defaultValue={"todo"}
-//             // allowClear'
-//             style={{
-//               left: "50%",
-//               transform: " translate(-50%, 0)",
-//             }}
-//           >
-//             <Option
-//               value="todo"
-//               className="style-todo"
-//               Option={""}
-//               style={{ backgroundColor: "red" }}
-//             >
-//               todo
-//             </Option>
-//             <Option value="doing">doing</Option>
-//             <Option value="done">done</Option>
-//           </Select>
-//         </Col> */}
+        <Col span={6} style={{ backgroundColor: "", float: "left" }}>
+          <Select
+            placeholder="Select a option and change input text above"
+            // onChange={(value, option) => {
+            //   console.log(value);
+            // }}
+            onChange={onGenderChange}
+            defaultValue={"todo"}
+            // allowClear
+            style={{
+              left: "50%",
+              transform: " translate(-50%, 0)",
+            }}
+          >
+            <Option
+              value="todo"
+              className="style-todo"
+              Option={""}
+              style={{ backgroundColor: "red" }}
+            >
+              todo
+            </Option>
+            <Option value="doing">doing</Option>
+            <Option value="done">done</Option>
+          </Select>
+          ›
+        </Col>
       </Row>
     </>
   );

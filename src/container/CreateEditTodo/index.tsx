@@ -80,7 +80,12 @@ function CreateEditTodo(props: IPropsCreateEditTodo) {
           // allowClear'
           style={{ left: "50%", transform: " translate(-50%, 0)" }}
         >
-          <Option value="todo" className="style-todo" Option={""}>
+          <Option
+            value="todo"
+            className="style-todo"
+            Option={""}
+            style={{ backgroundColor: "red" }}
+          >
             todo
           </Option>
           <Option value="doing">doing</Option>

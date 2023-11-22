@@ -14,17 +14,52 @@ function App() {
   const [todoList, setTodoList] = useState<any>([]);
   const [editDataItem, setEditDataItem] = useState<any>();
 
-  const [filteredData, setFilteredData] = useState(todoList);
+  const [countStatus, setCountStatus] = useState<any>(); //series
+  const [dateList, setDateList] = useState<any>(); //categories
 
-  const handleSearch = (searchTerm: any, searchDate: any) => {
-    const filtered = todoList.filter((item: any) => {
-      if (searchDate) {
-        return item.content.includes(searchTerm) && item.date === searchDate;
+  //  const dateitem = todoList.map((item:any) => {
+
+  //  })
+
+  const [arrangeDate, setArrangeDate] = useState<any>(todoList);
+
+  todoList.sort(function (date1: any, date2: any) {
+    console.log("date1.date", typeof date1.date);
+    console.log("date2.date", date2.date);
+
+    return date1.date - date2.date;
+  });
+
+  console.table("todoList", todoList);
+
+  const handleSearch = (
+    searchTerm: string,
+    searchDate: string,
+    searchStatus: string
+  ) => {
+    const dataTodoList = localStorage.getItem("SaveItemInLocalstorage");
+
+    console.log("searchTerm", typeof searchTerm);
+    console.log("searchDate", typeof searchDate);
+    console.log("searchStatus", typeof searchStatus);
+
+    const filtered = JSON.parse(dataTodoList as string).filter((item: any) => {
+      if (searchDate && searchStatus) {
+        return (
+          item.content.includes(searchTerm) &&
+          item.date === searchDate &&
+          item.status === searchStatus
+        );
+      } else if (searchDate || searchStatus) {
+        return (
+          (item.content.includes(searchTerm) && item.date === searchDate) ||
+          (item.content.includes(searchTerm) && item.status === searchStatus)
+        );
       } else {
         return item.content.includes(searchTerm);
       }
     });
-    setFilteredData(filtered);
+    setTodoList(filtered);
   };
 
   useEffect(() => {
@@ -75,110 +110,56 @@ function App() {
     setIsModalOpen(false);
   };
 
-  if (Object.keys(filteredData).length !== 0) {
-    return (
-      <>
-        <div className="container">
-          <div className="header">
-            <Row>
-              <Col span={24}>
-                <h1 className="heading">My Todos</h1>
-              </Col>
-            </Row>
-          </div>
-          <Row>
-            <Col span={20}>
-              <SearchTodo onSearch={handleSearch} />
-            </Col>
-            <Col span={4}>
-              <button type="button" onClick={showModal}>
-                Create
-              </button>
-            </Col>
-          </Row>
+  return (
+    <>
+      <div className="container">
+        <div className="header">
           <Row>
             <Col span={24}>
-              <Statistic />
-            </Col>
-            <Col span={24}>
-              <HomePageTodoList
-                data={filteredData}
-                // data={todoList}
-                onShowModal={showModal}
-                handleEditData={(record: DataType) => editItem(record)}
-                handleDelete={(id: string) => deleteItem(id)}
-              />
+              <h1 className="heading">My Todos</h1>
             </Col>
           </Row>
         </div>
+        <Row>
+          <Col span={20}>
+            <SearchTodo onSearch={handleSearch} />
+          </Col>
+          <Col span={4}>
+            <button type="button" onClick={showModal}>
+              Create
+            </button>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Statistic />
+          </Col>
+          <Col span={24}>
+            <HomePageTodoList
+              data={todoList}
+              onShowModal={showModal}
+              handleEditData={(record: DataType) => editItem(record)}
+              handleDelete={(id: string) => deleteItem(id)}
+            />
+          </Col>
+        </Row>
+      </div>
 
-        <Modal
-          title="Basic Modal"
-          open={isModalOpen}
-          onCancel={handleCancel}
-          footer={null}
-        >
-          <CreateEditTodo
-            onHandleCancel={handleCancel}
-            onAddTodo={addData}
-            editData={editDataItem}
-            handleUpdate={update}
-          />
-        </Modal>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <div className="container">
-          <div className="header">
-            <Row>
-              <Col span={24}>
-                <h1 className="heading">My Todos</h1>
-              </Col>
-            </Row>
-          </div>
-          <Row>
-            <Col span={20}>
-              <SearchTodo onSearch={handleSearch} />
-            </Col>
-            <Col span={4}>
-              <button type="button" onClick={showModal}>
-                Create
-              </button>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <Statistic />
-            </Col>
-            <Col span={24}>
-              <HomePageTodoList
-                data={todoList}
-                onShowModal={showModal}
-                handleEditData={(record: DataType) => editItem(record)}
-                handleDelete={(id: string) => deleteItem(id)}
-              />
-            </Col>
-          </Row>
-        </div>
-
-        <Modal
-          title="Basic Modal"
-          open={isModalOpen}
-          onCancel={handleCancel}
-          footer={null}
-        >
-          <CreateEditTodo
-            onHandleCancel={handleCancel}
-            onAddTodo={addData}
-            editData={editDataItem}
-            handleUpdate={update}
-          />
-        </Modal>
-      </>
-    );
-  }
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <CreateEditTodo
+          onHandleCancel={handleCancel}
+          onAddTodo={addData}
+          editData={editDataItem}
+          handleUpdate={update}
+        />
+      </Modal>
+    </>
+  );
 }
 
 export default App;

@@ -1,14 +1,5 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-
-// interface MyProps {
-//   ...
-// }
-
-// interface MyState {
-//   value: string
-// }
-// class ApexChart extends React.Component<MyProps, MyState> {
 class Statistic extends React.Component<any, any> {
   constructor(props: {} | Readonly<{}>) {
     super(props);
@@ -26,10 +17,6 @@ class Statistic extends React.Component<any, any> {
         {
           name: "Done",
           data: [11, 17, 15, 15, 21, 14],
-        },
-        {
-          name: "review",
-          data: [21, 7, 25, 13, 22, 8],
         },
       ],
       options: {
