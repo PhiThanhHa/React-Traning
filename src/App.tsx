@@ -17,20 +17,76 @@ function App() {
   const [countStatus, setCountStatus] = useState<any>(); //series
   const [dateList, setDateList] = useState<any>(); //categories
 
-  //  const dateitem = todoList.map((item:any) => {
+  // const [arrangeDate, setArrangeDate] = useState<any>(todoList);
 
-  //  })
-
-  const [arrangeDate, setArrangeDate] = useState<any>(todoList);
-
-  todoList.sort(function (date1: any, date2: any) {
-    console.log("date1.date", typeof date1.date);
-    console.log("date2.date", date2.date);
-
-    return date1.date - date2.date;
+  const sortedDateArray = [...todoList].sort((a, b) => {
+    return new Date(a.date).valueOf() - new Date(b.date).valueOf();
   });
 
-  console.table("todoList", todoList);
+  const uniqueDatesSet = new Set(sortedDateArray.map((item) => item.date));
+  const uniqueDatesArray = Array.from(uniqueDatesSet);
+  console.log("uniqueDatesArray", uniqueDatesArray);
+  console.log("uniqueDatesSet typeof", typeof uniqueDatesSet);
+  console.table("sortedDateArray", sortedDateArray);
+
+  const [statusCounts, setStatusCounts] = useState({});
+
+  const counts = {};
+
+  // // Lặp qua mảng sắp xếp và đếm số lượng trạng thái cho từng ngày
+  // uniqueDatesArray.forEach((item) => {
+  //   const date = item.date;
+  //   const status = item.status;
+
+  //   console.log("date", date);
+
+  //   if (!counts[date]) {
+  //     counts[date] = { todo: 0, doing: 0, done: 0 };
+  //   }
+
+  //   counts[date][status]++;
+  // });
+  // setStatusCounts(counts);
+
+  // console.log("statusCounts", statusCounts);
+
+  // const [statusCounts, setStatusCounts] = useState({});
+  // const [statusCountsTodo, setStatusCountsTodo] = useState({});
+  // const [statusCountsDoing, setStatusCountsDoing] = useState({});
+  // const [statusCountsDone, setStatusCountsDone] = useState({});
+
+  // useEffect(() => {
+  //   // Sắp xếp mảng theo ngày
+  //   const sortedDateArray = [...todoList].sort(
+  //     (a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf()
+  //   );
+
+  // Tạo một đối tượng để theo dõi số lượng trạng thái cho mỗi ngày
+  //   const countsTodo = {};
+  //   const countsDoing = {};
+  //   const countsDone = {};
+
+  //   // Lặp qua mảng sắp xếp và đếm số lượng trạng thái cho từng ngày
+  //   sortedDateArray.forEach((item) => {
+  //     const date = item.date;
+  //     const status = item.status;
+
+  //     console.log("date", date);
+
+  //     // if (!counts[date]) {
+  //     //   counts[date] = { todo: 0, doing: 0, done: 0 };
+  //     // }
+
+  //     // counts[date][status]++;
+  //   });
+
+  //   // Cập nhật state với đối tượng đếm
+  //   setStatusCountsTodo(countsTodo);
+  //   setStatusCountsDoing(countsDoing);
+  //   setStatusCountsDone(countsDone);
+
+  //   // setStatusCounts(counts);
+  // }, [todoList]);
 
   const handleSearch = (
     searchTerm: string,
@@ -38,11 +94,6 @@ function App() {
     searchStatus: string
   ) => {
     const dataTodoList = localStorage.getItem("SaveItemInLocalstorage");
-
-    console.log("searchTerm", typeof searchTerm);
-    console.log("searchDate", typeof searchDate);
-    console.log("searchStatus", typeof searchStatus);
-
     const filtered = JSON.parse(dataTodoList as string).filter((item: any) => {
       if (searchDate && searchStatus) {
         return (
@@ -132,7 +183,7 @@ function App() {
         </Row>
         <Row>
           <Col span={24}>
-            <Statistic />
+            <Statistic datalist={uniqueDatesArray} />
           </Col>
           <Col span={24}>
             <HomePageTodoList
