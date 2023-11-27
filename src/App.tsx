@@ -14,80 +14,6 @@ function App() {
   const [todoList, setTodoList] = useState<any>([]);
   const [editDataItem, setEditDataItem] = useState<any>();
 
-  const [countStatus, setCountStatus] = useState<any>(); //series
-  const [dateList, setDateList] = useState<any>(); //categories
-
-  // const [arrangeDate, setArrangeDate] = useState<any>(todoList);
-
-  const sortedDateArray = [...todoList].sort((a, b) => {
-    return new Date(a.date).valueOf() - new Date(b.date).valueOf();
-  });
-
-  const uniqueDatesSet = new Set(sortedDateArray.map((item) => item.date));
-  const uniqueDatesArray = Array.from(uniqueDatesSet);
-  console.log("uniqueDatesArray", uniqueDatesArray);
-  console.log("uniqueDatesSet typeof", typeof uniqueDatesSet);
-  console.table("sortedDateArray", sortedDateArray);
-
-  const [statusCounts, setStatusCounts] = useState({});
-
-  const counts = {};
-
-  // // Lặp qua mảng sắp xếp và đếm số lượng trạng thái cho từng ngày
-  // uniqueDatesArray.forEach((item) => {
-  //   const date = item.date;
-  //   const status = item.status;
-
-  //   console.log("date", date);
-
-  //   if (!counts[date]) {
-  //     counts[date] = { todo: 0, doing: 0, done: 0 };
-  //   }
-
-  //   counts[date][status]++;
-  // });
-  // setStatusCounts(counts);
-
-  // console.log("statusCounts", statusCounts);
-
-  // const [statusCounts, setStatusCounts] = useState({});
-  // const [statusCountsTodo, setStatusCountsTodo] = useState({});
-  // const [statusCountsDoing, setStatusCountsDoing] = useState({});
-  // const [statusCountsDone, setStatusCountsDone] = useState({});
-
-  // useEffect(() => {
-  //   // Sắp xếp mảng theo ngày
-  //   const sortedDateArray = [...todoList].sort(
-  //     (a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf()
-  //   );
-
-  // Tạo một đối tượng để theo dõi số lượng trạng thái cho mỗi ngày
-  //   const countsTodo = {};
-  //   const countsDoing = {};
-  //   const countsDone = {};
-
-  //   // Lặp qua mảng sắp xếp và đếm số lượng trạng thái cho từng ngày
-  //   sortedDateArray.forEach((item) => {
-  //     const date = item.date;
-  //     const status = item.status;
-
-  //     console.log("date", date);
-
-  //     // if (!counts[date]) {
-  //     //   counts[date] = { todo: 0, doing: 0, done: 0 };
-  //     // }
-
-  //     // counts[date][status]++;
-  //   });
-
-  //   // Cập nhật state với đối tượng đếm
-  //   setStatusCountsTodo(countsTodo);
-  //   setStatusCountsDoing(countsDoing);
-  //   setStatusCountsDone(countsDone);
-
-  //   // setStatusCounts(counts);
-  // }, [todoList]);
-
   const handleSearch = (
     searchTerm: string,
     searchDate: string,
@@ -183,7 +109,7 @@ function App() {
         </Row>
         <Row>
           <Col span={24}>
-            <Statistic datalist={uniqueDatesArray} />
+            <Statistic todoList={todoList} />
           </Col>
           <Col span={24}>
             <HomePageTodoList

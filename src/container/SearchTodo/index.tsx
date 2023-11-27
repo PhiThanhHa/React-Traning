@@ -43,8 +43,6 @@ function SearchTodo(props: IPropsSearchTodo) {
     setSearchStatus(value);
   };
 
-  console.log("searchStatus", searchStatus);
-
   useEffect(() => {
     onSearch(debouncedSearchTerm, searchDate, searchStatus);
   }, [debouncedSearchTerm, searchDate, searchStatus]);

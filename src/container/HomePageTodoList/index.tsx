@@ -43,7 +43,7 @@ function HomePageTodoList(props: IPropsHomePageTodoList) {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Space size="middle">
+        <Space size="middle" key={record.id}>
           {/* <a>Invite {record.content}</a> */}
           {/* <Button type="primary" danger > */}
           <Button
